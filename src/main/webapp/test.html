@@ -1,0 +1,77 @@
+<html>
+<head>
+	<script type="text/javascript" src="jquery-2.1.3.js"></script>
+</head>
+
+	<form id="formulario" action="admin/mock-services" >
+		<input type="text" name="mockService.name" value="servicio-prueba">
+		<input type="text" name="mockService.requestKeyFields.type" value="BODY">
+		<input type="text" name="mockService.requestKeyFields.code" value="PARAM1">
+		<input type="text" name="mockService.requestKeyFields.pathInJson" value="test.lala">
+		<input type="text" name="defaultResponse.httpCode" value="200">
+		<input type="text" name="defaultResponse.elapsedTime" value="1000">
+		<input type="submit" value="Crear servicio">
+	</form>
+	
+	<div id="result">
+	</div>
+	
+	<script type="text/javascript">
+	
+	$("#formulario").submit(function( event ) {
+		
+		event.preventDefault();
+		
+		var formulario = $(this);
+		
+		var data = {
+				mockService: {
+					name: formulario.find("input[name='mockService.name']").val(),
+					requestKeyFields: [
+					    {
+					    	type: formulario.find("input[name='mockService.requestKeyFields.type']").val(),
+					    	code: formulario.find("input[name='mockService.requestKeyFields.code']").val(),
+					    	jsonInPath: formulario.find("input[name='mockService.requestKeyFields.pathInJson']").val()
+					    }
+					]
+				},
+				defaultResponse: {
+					httpCode: formulario.find("input[name='defaultResponse.httpCode']").val(),
+					elapsedTime: formulario.find("input[name='defaultResponse.elapsedTime']").val()
+				}
+		}
+		
+		console.log(JSON.stringify(data));
+		
+// 		$.ajax({
+// 			url: formulario.attr("action"),
+// 			type: 'POST',
+// 			data: data,
+// 			dataType: 'json',
+// 			contentType: 'application/json; charset=utf-8',
+// 			success: function( dataReturned ) {
+// 					alert('success ' + dataReturned);
+// 				// // 					var content = $( dataReturned ).find( "#content" );
+// 				// // 				    $( "#result" ).empty().append( content );
+// 			},
+// 			error: function(dataError) {
+// 				alert('error ' + dataError);
+// 			}
+// 		});
+		
+		
+		
+// 		var posting = $.post( 
+// 				formulario.attr( "action" ), 
+// 				data, 
+// 				function( dataReturned ) {
+// 					alert(dataReturned);
+// // 					var content = $( dataReturned ).find( "#content" );
+// // 				    $( "#result" ).empty().append( content );
+// 				},
+// 				"json");
+	});
+	
+	</script>
+	
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %-4p [%X{uow}-%X{requestId}] [%t] [%X{group}] (%F:%L\) : %msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/tmp/moku.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>moku.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>10</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d %-4p [%X{uow}-%X{requestId}] [%t] [%X{group}] (%F:%L\) : %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework" level="WARN" />
+	<logger name="com.despegar.moku" level="DEBUG" />
+<!-- 	<logger name="com.despegar.moku.dao" level="INFO" /> -->
+
+	<root level="INFO">
+		<appender-ref ref="Console" />
+		<appender-ref ref="FILE" />
+<!-- 		<appender-ref ref="UDP" /> -->
+<!-- 		<appender-ref ref="ASYNC" /> -->
+	</root>
+</configuration>
