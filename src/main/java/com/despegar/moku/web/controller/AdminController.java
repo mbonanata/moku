@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.despegar.moku.model.MockService;
 import com.despegar.moku.model.enums.FieldType;
 import com.despegar.moku.service.MockServiceService;
 import com.despegar.moku.service.exception.ServiceException;
@@ -40,8 +39,9 @@ public class AdminController {
 	private MockServiceService mockServiceService;
 
 	@RequestMapping(value = "/mock-services", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<MockService> mockServices() {
-		return this.mockServiceService.getAllMockServices();
+	public List<String> mockServices() {
+		// TODO implementar
+		return null;
 	}
 
 	@ApiOperation(value = "Crear un servicio mock", produces = "json")
@@ -81,7 +81,7 @@ public class AdminController {
 		}
 
 		if (requestKeyFieldDTO.getType().equals(FieldType.BODY) && StringUtils.isBlank(requestKeyFieldDTO.getPathInJson())) {
-			throw new ValidationException("path_in_json is required when type = '" + FieldType.BODY.name() + "'");
+			throw new ValidationException(String.format("path_in_json is required when type = '%s'", FieldType.BODY.name()));
 		}
 
 		Long requestKeyFieldId = this.mockServiceService.addRequestKeyField(mockServiceId, requestKeyFieldDTO);
