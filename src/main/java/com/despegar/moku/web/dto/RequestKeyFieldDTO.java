@@ -9,6 +9,8 @@ public class RequestKeyFieldDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
+
 	private FieldType type;
 
 	private String code;
@@ -38,5 +40,13 @@ public class RequestKeyFieldDTO implements Serializable {
 
 	public void setPathInJson(String pathInJson) {
 		this.pathInJson = pathInJson;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

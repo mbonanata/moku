@@ -9,8 +9,10 @@ public class MockServiceResponseDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Long id;
+
 	private String name;
-	
+
 	@JsonProperty("http_code")
 	private Integer httpCode;
 
@@ -60,5 +62,13 @@ public class MockServiceResponseDTO implements Serializable {
 
 	public void setElapsedTime(Long elapsedTime) {
 		this.elapsedTime = elapsedTime;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

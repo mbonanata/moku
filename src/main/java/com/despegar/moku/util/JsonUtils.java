@@ -1,11 +1,12 @@
 package com.despegar.moku.util;
 
-import java.util.Map;
+import java.util.Optional;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 
 public class JsonUtils {
 
@@ -15,8 +16,7 @@ public class JsonUtils {
 
 	static {
 		mapper = new ObjectMapper();
-		reader = mapper.reader().withType(new TypeReference<Map<String, String>>() {
-		});
+		reader = mapper.reader();
 		writer = mapper.writer();
 	}
 
@@ -26,5 +26,14 @@ public class JsonUtils {
 
 	public static ObjectWriter writer() {
 		return writer;
+	}
+
+	public static Optional<Object> getValue(String json, String path) {
+		Object o = null;
+		try {
+			o = JsonPath.read(json, path);
+		} catch (PathNotFoundException e) {
+		}
+		return Optional.ofNullable(o);
 	}
 }

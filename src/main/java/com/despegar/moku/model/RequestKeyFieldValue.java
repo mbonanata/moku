@@ -26,7 +26,7 @@ public class RequestKeyFieldValue implements Model {
 	public RequestKeyFieldValue() {
 		super();
 	}
-	
+
 	public RequestKeyFieldValue(String requestKeyFieldCode, String value) {
 		super();
 		this.requestKeyFieldCode = requestKeyFieldCode;
@@ -58,4 +58,5 @@ public class RequestKeyFieldValue implements Model {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 }

@@ -25,7 +25,7 @@ public class MockServiceResponse implements Model {
 
 	@Column(nullable = false)
 	private String name;
-	
+
 	@Column(nullable = false)
 	private Integer httpCode;
 
@@ -34,7 +34,7 @@ public class MockServiceResponse implements Model {
 
 	private Long elapsedTime;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "serviceResponseId", referencedColumnName = "id", nullable = true)
 	private List<RequestKeyFieldValue> requestKeyFieldValues;
 
@@ -46,8 +46,7 @@ public class MockServiceResponse implements Model {
 		this(httpCode, null, null, null);
 	}
 
-	public MockServiceResponse(Integer httpCode, String body, Long elapsedTime,
-			List<RequestKeyFieldValue> requestKeyFieldValues) {
+	public MockServiceResponse(Integer httpCode, String body, Long elapsedTime, List<RequestKeyFieldValue> requestKeyFieldValues) {
 		super();
 		this.httpCode = httpCode;
 		this.body = body;
@@ -93,8 +92,7 @@ public class MockServiceResponse implements Model {
 		return requestKeyFieldValues;
 	}
 
-	public void setRequestKeyFieldValues(
-			List<RequestKeyFieldValue> requestKeyFieldValues) {
+	public void setRequestKeyFieldValues(List<RequestKeyFieldValue> requestKeyFieldValues) {
 		this.requestKeyFieldValues = requestKeyFieldValues;
 	}
 
@@ -105,4 +103,5 @@ public class MockServiceResponse implements Model {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 }

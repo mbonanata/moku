@@ -3,3 +3,6 @@ curl -v -H "Content-Type: application/json" -X POST -d '{"mock_service":{"name":
 curl -v -H "Content-Type: application/json" -X POST -d '{"type":"BODY","code":"channel","path_in_json":"channel"}' http://localhost:8080/moku/admin/mock-services/1/request-key-field
 
 curl -v -H "Content-Type: application/json" -X POST -d '{"name":"errorResponse", "http_code":500,"body":"{\"code\":\"ERROR\"}","elapsed_time":10000, "request_key_field_values":[{"code":"tid", "value":"99999"}, {"code":"channel", "value":"site"}]}' http://localhost:8080/moku/admin/mock-services/1/mock-service-responses
+
+curl -v -H "Content-Type: application/json" -X POST -d '{"transactionId":99999,"channel":{"code":"site"}}' http://localhost:8080/moku/mock-services/json/servicio-prueba
+

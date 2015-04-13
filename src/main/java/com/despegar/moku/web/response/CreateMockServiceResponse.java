@@ -7,9 +7,12 @@ public class CreateMockServiceResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	private String name;
 
-	public CreateMockServiceResponse(Long id) {
+	public CreateMockServiceResponse(Long id, String name) {
 		this.id = id;
+		this.name = name;
 	}
 
 	public Long getId() {
@@ -20,4 +23,11 @@ public class CreateMockServiceResponse implements Serializable {
 		this.id = id;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 }

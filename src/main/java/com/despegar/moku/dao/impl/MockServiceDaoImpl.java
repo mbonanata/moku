@@ -17,7 +17,7 @@ public class MockServiceDaoImpl extends AbstractDaoImpl<MockService> implements 
 	@Override
 	public MockService findByName(String name) {
 
-		List<?> resultList = this.getEntityManager().createQuery("from MockService where name = ?1").setParameter(1, name).getResultList();
+		List<?> resultList = this.getEntityManager().createQuery("select mc from MockService mc where mc.name = :name").setParameter("name", name).getResultList();
 
 		return resultList.size() == 0 ? null : (MockService) resultList.get(0);
 	}

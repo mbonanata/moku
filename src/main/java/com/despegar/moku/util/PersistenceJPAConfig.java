@@ -42,6 +42,9 @@ public class PersistenceJPAConfig {
 	@Value("${hibernateDialect}")
 	private String hibernateDialect;
 
+	@Value("${hibernateShowSql}")
+	private String hibernateShowSql;
+
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -83,6 +86,7 @@ public class PersistenceJPAConfig {
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.hbm2ddl.auto", this.hibernateHbm2Dll);
 		properties.setProperty("hibernate.dialect", this.hibernateDialect);
+		properties.setProperty("hibernate.show_sql", this.hibernateShowSql);
 		return properties;
 	}
 

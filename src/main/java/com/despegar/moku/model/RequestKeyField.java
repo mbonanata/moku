@@ -32,9 +32,9 @@ public class RequestKeyField implements Model {
 	private String pathInJson;
 
 	public RequestKeyField() {
-		
+
 	}
-	
+
 	public RequestKeyField(FieldType type, String code, String pathInJson) {
 		super();
 		this.type = type;
@@ -75,4 +75,5 @@ public class RequestKeyField implements Model {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 }

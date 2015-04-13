@@ -27,15 +27,15 @@ public class MockService implements Model {
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
-	@OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "defaultResponseId", nullable = false)
 	private MockServiceResponse defaultResponse;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "serviceId", referencedColumnName = "id", nullable = true)
 	private List<MockServiceResponse> otherResponses;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "serviceId", referencedColumnName = "id", nullable = true)
 	private List<RequestKeyField> requestKeyFields;
 
@@ -101,4 +101,5 @@ public class MockService implements Model {
 	public void setRequestKeyFields(List<RequestKeyField> requestKeyFields) {
 		this.requestKeyFields = requestKeyFields;
 	}
+
 }

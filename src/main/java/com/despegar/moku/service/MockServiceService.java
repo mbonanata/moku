@@ -17,5 +17,7 @@ public interface MockServiceService {
 	Long addRequestKeyField(Long mockServiceId, RequestKeyFieldDTO requestKeyFieldDTO) throws ServiceException;
 
 	Long addMockServiceResponse(Long mockServiceId, MockServiceResponseDTO mockServiceResponseDTO) throws ServiceException;
-	
+
+	MockService findByName(String serviceName);
+
 }

@@ -65,7 +65,7 @@ public class AdminController {
 
 		logger.info("Servicio {} creado con id: {}", mockServiceDTO.getMockService().getName(), mockServiceId);
 
-		return new CreateMockServiceResponse(mockServiceId);
+		return new CreateMockServiceResponse(mockServiceId, mockServiceDTO.getMockService().getName());
 	}
 
 	@RequestMapping(value = "/mock-services/{mock-service-id}/request-key-field", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -104,7 +104,8 @@ public class AdminController {
 		}
 
 		if (!CollectionUtils.isEmpty(mockServiceResponseDTO.getRequestKeyFieldValues())) {
-			if (mockServiceResponseDTO.getRequestKeyFieldValues().stream().filter(value -> StringUtils.isEmpty(value.getCode())).count() > 0) {
+			if (mockServiceResponseDTO.getRequestKeyFieldValues().stream()
+					.filter(value -> StringUtils.isEmpty(value.getRequestKeyFieldCode())).count() > 0) {
 				throw new ValidationException("Al least one request_key_field_value does not have any code");
 			}
 		}

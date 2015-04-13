@@ -107,7 +107,7 @@ public class MockServiceServiceImpl implements MockServiceService {
 					.stream()
 					.allMatch(
 							(RequestKeyFieldValueDTO value) -> mockService.getRequestKeyFields().stream()
-									.anyMatch((RequestKeyField field) -> field.getCode().equalsIgnoreCase(value.getCode())))) {
+									.anyMatch((RequestKeyField field) -> field.getCode().equalsIgnoreCase(value.getRequestKeyFieldCode())))) {
 				throw new ServiceException(String.format("Some key field value doesnt exists for service: %s", mockService.getName()));
 			}
 		}
@@ -134,7 +134,7 @@ public class MockServiceServiceImpl implements MockServiceService {
 								.stream()
 								.allMatch(
 										value -> mockServiceResponseDTO.getRequestKeyFieldValues().stream()
-												.anyMatch(valueDTO -> value.getRequestKeyFieldCode().equalsIgnoreCase(valueDTO.getCode())))
+												.anyMatch(valueDTO -> value.getRequestKeyFieldCode().equalsIgnoreCase(valueDTO.getRequestKeyFieldCode())))
 								&& otherResponse.getRequestKeyFieldValues().size() == mockServiceResponseDTO.getRequestKeyFieldValues()
 										.size())) {
 			throw new ServiceException(String.format("Already exists a MockServiceResponse with this params for service: %s",
@@ -152,7 +152,7 @@ public class MockServiceServiceImpl implements MockServiceService {
 
 		if (!CollectionUtils.isEmpty(mockServiceResponseDTO.getRequestKeyFieldValues())) {
 			requestKeyFieldValues = mockServiceResponseDTO.getRequestKeyFieldValues().stream()
-					.map(value -> new RequestKeyFieldValue(value.getCode(), value.getValue())).collect(Collectors.toList());
+					.map(value -> new RequestKeyFieldValue(value.getRequestKeyFieldCode(), value.getValue())).collect(Collectors.toList());
 		}
 
 		mockServiceResponse.setRequestKeyFieldValues(requestKeyFieldValues);
@@ -164,4 +164,11 @@ public class MockServiceServiceImpl implements MockServiceService {
 		return mockService.getOtherResponses().stream().filter(response -> response.getName().equals(mockServiceResponse.getName()))
 				.findFirst().orElseThrow(RuntimeException::new).getId();
 	}
+
+	@Override
+	@Transactional
+	public MockService findByName(String name) {
+		return this.mockServiceDao.findByName(name);
+	}
+
 }
