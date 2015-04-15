@@ -10,7 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,8 +37,8 @@ public class MockServiceController {
 	private MockServiceService mockServiceService;
 
 	@RequestMapping(value = "/json/{service-name}", method = { RequestMethod.GET, RequestMethod.POST }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String jsonService(@PathVariable("service-name") String serviceName, @RequestBody Object body) throws ValidationException,
-			IOException {
+	public ResponseEntity<String> jsonService(@PathVariable("service-name") String serviceName, @RequestBody Object body)
+			throws ValidationException, IOException {
 		if (StringUtils.isBlank(serviceName)) {
 			throw new ValidationException("service-name is required");
 		}
@@ -46,6 +48,8 @@ public class MockServiceController {
 		if (mockService == null) {
 			throw new ValidationException(String.format("service %s not found", serviceName));
 		}
+
+		MockServiceResponse returnResponse = null;
 
 		if (!CollectionUtils.isEmpty(mockService.getRequestKeyFields())) {
 			String jsonBody = JsonUtils.writer().writeValueAsString(body);
@@ -69,11 +73,26 @@ public class MockServiceController {
 					.collect(Collectors.toList());
 
 			if (!responses.isEmpty()) {
-				return responses.get(0).getBody();
+				returnResponse = responses.get(0);
 			}
 		}
 
-		return mockService.getDefaultResponse().getBody();
+		if (returnResponse == null) {
+			returnResponse = mockService.getDefaultResponse();
+		}
+
+		if (returnResponse.getElapsedTime() != null) {
+			try {
+				logger.debug("Se aplica un retraso a la respuesta de {} miliseg.", returnResponse.getElapsedTime());
+				Thread.sleep(returnResponse.getElapsedTime());
+			} catch (InterruptedException e) {
+			}
+		}
+
+		logger.debug("Se devuelve como body de la respuesta: {}", returnResponse.getBody());
+		logger.debug("Se devuelve como http status code: {}", returnResponse.getHttpCode());
+
+		return new ResponseEntity<String>(returnResponse.getBody(), HttpStatus.valueOf(returnResponse.getHttpCode()));
 	}
 
 }
