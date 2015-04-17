@@ -16,6 +16,7 @@ public class JsonUtils {
 
 	static {
 		mapper = new ObjectMapper();
+//		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 		reader = mapper.reader();
 		writer = mapper.writer();
 	}

@@ -18,7 +18,6 @@ import com.despegar.moku.service.exception.ServiceException;
 import com.despegar.moku.web.dto.CreateMockServiceDTO;
 import com.despegar.moku.web.dto.MockServiceResponseDTO;
 import com.despegar.moku.web.dto.RequestKeyFieldDTO;
-import com.despegar.moku.web.dto.RequestKeyFieldValueDTO;
 import com.google.common.collect.Lists;
 
 @Service
@@ -68,8 +67,7 @@ public class MockServiceServiceImpl implements MockServiceService {
 			throw new ServiceException(String.format("Service with id %d doesnt exists", mockServiceId));
 		}
 
-		if (mockService.getRequestKeyFields().stream()
-				.anyMatch((RequestKeyField field) -> field.getCode().equalsIgnoreCase(requestKeyFieldDTO.getCode()))) {
+		if (mockService.getRequestKeyFields().stream().anyMatch(field -> field.getCode().equalsIgnoreCase(requestKeyFieldDTO.getCode()))) {
 			throw new ServiceException(String.format("Key field with code: %s already exists for service: %s",
 					requestKeyFieldDTO.getCode(), mockService.getName()));
 		}
@@ -79,6 +77,8 @@ public class MockServiceServiceImpl implements MockServiceService {
 		field.setCode(requestKeyFieldDTO.getCode());
 		field.setType(requestKeyFieldDTO.getType());
 		field.setPathInJson(requestKeyFieldDTO.getPathInJson());
+		field.setParamName(requestKeyFieldDTO.getParamName());
+		field.setPathVariableIndex(requestKeyFieldDTO.getPathVariableIndex());
 
 		mockService.getRequestKeyFields().add(field);
 
@@ -106,8 +106,8 @@ public class MockServiceServiceImpl implements MockServiceService {
 					.getRequestKeyFieldValues()
 					.stream()
 					.allMatch(
-							(RequestKeyFieldValueDTO value) -> mockService.getRequestKeyFields().stream()
-									.anyMatch((RequestKeyField field) -> field.getCode().equalsIgnoreCase(value.getRequestKeyFieldCode())))) {
+							valueDTO -> mockService.getRequestKeyFields().stream()
+									.anyMatch(field -> field.getCode().equalsIgnoreCase(valueDTO.getRequestKeyFieldCode())))) {
 				throw new ServiceException(String.format("Some key field value doesnt exists for service: %s", mockService.getName()));
 			}
 		}
@@ -133,8 +133,13 @@ public class MockServiceServiceImpl implements MockServiceService {
 								.getRequestKeyFieldValues()
 								.stream()
 								.allMatch(
-										value -> mockServiceResponseDTO.getRequestKeyFieldValues().stream()
-												.anyMatch(valueDTO -> value.getRequestKeyFieldCode().equalsIgnoreCase(valueDTO.getRequestKeyFieldCode())))
+										value -> mockServiceResponseDTO
+												.getRequestKeyFieldValues()
+												.stream()
+												.anyMatch(
+														valueDTO -> value.getRequestKeyFieldCode().equalsIgnoreCase(
+																valueDTO.getRequestKeyFieldCode())
+																&& value.getValue().equalsIgnoreCase(valueDTO.getValue())))
 								&& otherResponse.getRequestKeyFieldValues().size() == mockServiceResponseDTO.getRequestKeyFieldValues()
 										.size())) {
 			throw new ServiceException(String.format("Already exists a MockServiceResponse with this params for service: %s",

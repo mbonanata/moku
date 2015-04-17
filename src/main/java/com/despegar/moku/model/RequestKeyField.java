@@ -28,8 +28,23 @@ public class RequestKeyField implements Model {
 	@Column(nullable = false)
 	private String code;
 
-	@Column(nullable = false)
+	/*
+	 * Required if type = BODY
+	 */
+	@Column(nullable = true)
 	private String pathInJson;
+
+	/*
+	 * Required if type = QUERY
+	 */
+	@Column(nullable = true)
+	private String paramName;
+
+	/*
+	 * Required if type = PATH
+	 */
+	@Column(nullable = true)
+	private Integer pathVariableIndex;
 
 	public RequestKeyField() {
 
@@ -64,6 +79,22 @@ public class RequestKeyField implements Model {
 
 	public void setPathInJson(String pathInJson) {
 		this.pathInJson = pathInJson;
+	}
+
+	public String getParamName() {
+		return paramName;
+	}
+
+	public void setParamName(String paramName) {
+		this.paramName = paramName;
+	}
+
+	public Integer getPathVariableIndex() {
+		return pathVariableIndex;
+	}
+
+	public void setPathVariableIndex(Integer pathVariableIndex) {
+		this.pathVariableIndex = pathVariableIndex;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.despegar.moku.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -37,8 +39,11 @@ public class RestControllerLoggingAspect {
 
 			for (int i = 0; i < joinPoint.getArgs().length; i++) {
 				Object object = joinPoint.getArgs()[i];
-				sb.append(" arg" + i + " = ");
-				sb.append(JsonUtils.writer().writeValueAsString(object));
+				
+				if (!(object instanceof HttpServletRequest)) {
+					sb.append(" arg" + i + " = ");
+					sb.append(JsonUtils.writer().writeValueAsString(object));
+				}
 			}
 			sb.append(")");
 			logger.info(sb.toString());

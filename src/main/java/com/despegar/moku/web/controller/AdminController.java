@@ -80,8 +80,16 @@ public class AdminController {
 			throw new ValidationException("type is required");
 		}
 
-		if (requestKeyFieldDTO.getType().equals(FieldType.BODY) && StringUtils.isBlank(requestKeyFieldDTO.getPathInJson())) {
+		if (FieldType.BODY.equals(requestKeyFieldDTO.getType()) && StringUtils.isBlank(requestKeyFieldDTO.getPathInJson())) {
 			throw new ValidationException(String.format("path_in_json is required when type = '%s'", FieldType.BODY.name()));
+		}
+
+		if (FieldType.QUERY.equals(requestKeyFieldDTO.getType()) && StringUtils.isBlank(requestKeyFieldDTO.getParamName())) {
+			throw new ValidationException(String.format("param_name is required when type = '%s'", FieldType.QUERY.name()));
+		}
+
+		if (FieldType.PATH.equals(requestKeyFieldDTO.getType()) && requestKeyFieldDTO.getPathVariableIndex() == null) {
+			throw new ValidationException(String.format("path_variable_index is required when type = '%s'", FieldType.PATH.name()));
 		}
 
 		Long requestKeyFieldId = this.mockServiceService.addRequestKeyField(mockServiceId, requestKeyFieldDTO);

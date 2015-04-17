@@ -15,9 +15,26 @@ public class RequestKeyFieldDTO implements Serializable {
 
 	private String code;
 
+	/*
+	 * Required if type = BODY
+	 */
 	@JsonProperty("path_in_json")
 	private String pathInJson;
 
+
+	/*
+	 * Required if type = QUERY
+	 */
+	@JsonProperty("param_name")
+	private String paramName;
+
+	/*
+	 * Required if type = PATH
+	 */
+	@JsonProperty("path_variable_index")
+	private Integer pathVariableIndex;
+
+	
 	public FieldType getType() {
 		return type;
 	}
@@ -48,5 +65,21 @@ public class RequestKeyFieldDTO implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getParamName() {
+		return paramName;
+	}
+
+	public void setParamName(String paramName) {
+		this.paramName = paramName;
+	}
+
+	public Integer getPathVariableIndex() {
+		return pathVariableIndex;
+	}
+
+	public void setPathVariableIndex(Integer pathVariableIndex) {
+		this.pathVariableIndex = pathVariableIndex;
 	}
 }
