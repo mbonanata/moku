@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -15,9 +16,11 @@ import com.despegar.moku.model.MockServiceResponse;
 import com.despegar.moku.model.RequestKeyField;
 import com.despegar.moku.model.RequestKeyFieldValue;
 import com.despegar.moku.service.exception.ServiceException;
+import com.despegar.moku.util.JsonUtils;
 import com.despegar.moku.web.dto.CreateMockServiceDTO;
 import com.despegar.moku.web.dto.MockServiceResponseDTO;
 import com.despegar.moku.web.dto.RequestKeyFieldDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Lists;
 
 @Service
@@ -37,7 +40,17 @@ public class MockServiceServiceImpl implements MockServiceService {
 		}
 
 		defaultResponse.setName("defaultResponse");
-		defaultResponse.setBody(createMockServiceDTO.getDefaultResponse().getBody());
+		
+		String body = StringUtils.EMPTY;
+		if (createMockServiceDTO.getDefaultResponse().getBody() != null) {
+			try {
+				body = JsonUtils.writer().writeValueAsString(createMockServiceDTO.getDefaultResponse().getBody());
+			} catch (JsonProcessingException e) {
+				throw new ServiceException(String.format("default_response.body invalid format"));
+			}
+		}
+		
+		defaultResponse.setBody(body);
 		defaultResponse.setHttpCode(createMockServiceDTO.getDefaultResponse().getHttpCode());
 		defaultResponse.setElapsedTime(createMockServiceDTO.getDefaultResponse().getElapsedTime());
 
@@ -146,12 +159,21 @@ public class MockServiceServiceImpl implements MockServiceService {
 					mockService.getName()));
 		}
 
+		String body = StringUtils.EMPTY;
+		if (mockServiceResponseDTO.getBody() != null) {
+			try {
+				body = JsonUtils.writer().writeValueAsString(mockServiceResponseDTO.getBody());
+			} catch (JsonProcessingException e) {
+				throw new ServiceException(String.format("default_response.body invalid format"));
+			}
+		}
+		
 		MockServiceResponse mockServiceResponse = new MockServiceResponse();
 
 		mockServiceResponse.setName(mockServiceResponseDTO.getName());
 		mockServiceResponse.setHttpCode(mockServiceResponseDTO.getHttpCode());
 		mockServiceResponse.setElapsedTime(mockServiceResponseDTO.getElapsedTime());
-		mockServiceResponse.setBody(mockServiceResponseDTO.getBody());
+		mockServiceResponse.setBody(body);
 
 		List<RequestKeyFieldValue> requestKeyFieldValues = Lists.newArrayList();
 

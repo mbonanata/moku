@@ -16,7 +16,7 @@ public class MockServiceResponseDTO implements Serializable {
 	@JsonProperty("http_code")
 	private Integer httpCode;
 
-	private String body;
+	private Object body;
 
 	@JsonProperty("request_key_field_values")
 	private List<RequestKeyFieldValueDTO> requestKeyFieldValues;
@@ -40,11 +40,11 @@ public class MockServiceResponseDTO implements Serializable {
 		this.httpCode = httpCode;
 	}
 
-	public String getBody() {
+	public Object getBody() {
 		return body;
 	}
 
-	public void setBody(String body) {
+	public void setBody(Object body) {
 		this.body = body;
 	}
 

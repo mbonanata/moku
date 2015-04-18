@@ -1,6 +1,7 @@
 package com.despegar.moku.model;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -58,6 +59,10 @@ public class MockService implements Model {
 		this.defaultResponse = defaultResponse;
 		this.otherResponses = otherResponses;
 		this.requestKeyFields = requestKeyFields;
+	}
+
+	public Optional<RequestKeyField> getRequestKeyFieldByCode(String code) {
+		return this.requestKeyFields.stream().filter(field -> field.getCode().equals(code)).findFirst();
 	}
 
 	public String getName() {

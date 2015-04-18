@@ -6,3 +6,19 @@ curl -v -H "Content-Type: application/json" -X POST -d '{"name":"errorResponse",
 
 curl -v -H "Content-Type: application/json" -X POST -d '{"transactionId":99999,"channel":{"code":"site"}}' http://localhost:8080/moku/mock-services/json/servicio-prueba
 
+Prueba 17/04:
+
+curl -v -H "Content-Type: application/json" -X POST -d '{"mock_service":{"name":"pruebaService","request_key_fields":[{"type":"BODY","code":"transactionId","path_in_json":"transaction_id"}]},"default_response":{"http_code":"200","elapsed_time":"1000","body":"{\"code\":200}"}}' http://localhost:8080/moku/admin/mock-services
+curl -v -H "Content-Type: application/json" -X POST -d '{"type":"BODY","code":"channel","path_in_json":"channel"}' http://localhost:8080/moku/admin/mock-services/1/request-key-field
+curl -v -H "Content-Type: application/json" -X POST -d '{"type":"PATH","code":"country","path_variable_index":1}' http://localhost:8080/moku/admin/mock-services/1/request-key-field
+curl -v -H "Content-Type: application/json" -X POST -d '{"type":"PATH","code":"city","path_variable_index":2}' http://localhost:8080/moku/admin/mock-services/1/request-key-field
+curl -v -H "Content-Type: application/json" -X POST -d '{"type":"QUERY","code":"cancel","param_name":"cancel"}' http://localhost:8080/moku/admin/mock-services/1/request-key-field
+curl -v -H "Content-Type: application/json" -X POST -d '{"name":"errorResponse", "http_code":500,"body":"{\"code\":\"ERROR\"}","elapsed_time":5000, "request_key_field_values":[{"request_key_field_code":"transactionId", "value":"99999"}, {"request_key_field_code":"channel", "value":"site"}, {"request_key_field_code":"country", "value":"AR"}, {"request_key_field_code":"city", "value":"BUE"}, {"request_key_field_code":"cancel", "value":"true"}]}' http://localhost:8080/moku/admin/mock-services/1/mock-service-responses
+curl -v -H "Content-Type: application/json" -X POST -d '{"transaction_id":99999,"channel":"site"}' http://localhost:8080/moku/mock-services/json/pruebaService/AR/BUE?cancel=true
+
+Prueba 2:
+
+curl -v -H "Content-Type: application/json" -X POST -d '{"name":"testResponse", "http_code":200,"body":"{\"code\":\"OK\",\"amount\":10}","elapsed_time":500, "request_key_field_values":[{"request_key_field_code":"channel", "value":"site"}, {"request_key_field_code":"country", "value":"BR"}, {"request_key_field_code":"cancel", "value":"false"}]}' http://localhost:8080/moku/admin/mock-services/1/mock-service-responses
+curl -v -H "Content-Type: application/json" -X POST -d '{"transaction_id":999992,"channel":"site"}' http://localhost:8080/moku/mock-services/json/pruebaService/BR/SAO?cancel=false
+
+
