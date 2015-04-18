@@ -1,4 +1,4 @@
-package com.despegar.moku.service;
+package com.despegar.moku.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +15,7 @@ import com.despegar.moku.model.MockService;
 import com.despegar.moku.model.MockServiceResponse;
 import com.despegar.moku.model.RequestKeyField;
 import com.despegar.moku.model.RequestKeyFieldValue;
+import com.despegar.moku.service.MockServiceService;
 import com.despegar.moku.service.exception.ServiceException;
 import com.despegar.moku.util.JsonUtils;
 import com.despegar.moku.web.dto.CreateMockServiceDTO;
