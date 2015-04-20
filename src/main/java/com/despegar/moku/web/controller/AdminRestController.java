@@ -31,9 +31,9 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Api(value = "/admin", description = "Operaciones administrativas")
 @RestController()
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminRestController {
 
-	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AdminRestController.class);
 
 	@Autowired
 	private MockServiceService mockServiceService;

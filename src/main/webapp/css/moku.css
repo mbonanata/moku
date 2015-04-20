@@ -1,0 +1,21 @@
+.head {
+	background-color: orange;
+	color: white;
+}
+
+.title {
+	font-size: 24pt;
+}
+
+.menu {
+	background-color: black;
+	color: white;
+}
+
+div.menu ul {
+	margin-bottom: 0px;
+}
+
+.body-content {
+	margin-top: 10px;
+}
